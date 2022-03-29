@@ -28,7 +28,9 @@ void Create(int Data, Node* Root)
 		{
 			Node* Left = new Node;
 			Left->data = Data;
-			std::cout << "\nNew Node Left << " << Data << std::endl;
+			CurrentNode->left = Left;
+			std::cout << "\nNew Node " << Data << " Left of << " << Root->data << std::endl;
+			return;
 		}
 	}
 	else {
@@ -41,7 +43,9 @@ void Create(int Data, Node* Root)
 		{
 			Node* Right = new Node;
 			Right->data = Data;
-			std::cout << "\nNew Node Right << " << Data << std::endl;
+			CurrentNode->right = Right;
+			std::cout << "\nNew Node " << Data << " Right of << " << Root->data << std::endl;
+			return;
 		}
 	}
 }
