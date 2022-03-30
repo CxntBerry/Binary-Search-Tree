@@ -50,6 +50,36 @@ void Create(int Data, Node* Root)
 	}
 }
 
+void Search(int Data, Node* Root)
+{
+	Node* CurrentNode = new Node;
+	CurrentNode->data = Data;
+	if (CurrentNode->data < Root->data)
+	{
+		if (Root->left == nullptr)
+		{
+			std::cout << "\nFound: " << Root->data << std::endl;
+			return;
+		}
+		else {
+			std::cout << Root->data << ">";
+			Search(Data, Root->left);
+		}
+	}
+	if (CurrentNode->data > Root->data)
+	{
+		if (Root->right == nullptr)
+		{
+			std::cout << "\nFound: " << Root->data << std::endl;
+			return;
+		}
+		else {
+			std::cout << Root->data << ">";
+			Search(Data, Root->right);
+		}
+	}
+}
+
 
 
 //Create Headnode
@@ -74,6 +104,12 @@ int main()
 	{
 		std::cin >> userInput;
 		Create(userInput, Head);
+	}
+	for (int f = 0; f < 4; f++)
+	{
+		std::cout << "Please search for a number:\n\n";
+		std::cin >> userInput;
+		Search(userInput, Head);
 	}
 	getchar();
 }
