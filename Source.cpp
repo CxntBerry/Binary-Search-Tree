@@ -11,46 +11,50 @@ public:
 	int data;
 	Node* left = nullptr;
 	Node* right = nullptr;
+	Node* parent = nullptr;
 };
 
 void Create(int Data, Node* Root)
 {
 	Node* CurrentNode = new Node;
 	CurrentNode->data = Data;
+
 	if (CurrentNode->data < Root->data)
 	{
 		if (Root->left != nullptr)
 		{
 			Create(Data, Root->left);
-			std::cout << Data << " > ";
+			std::cout << CurrentNode->data << " > "; // Output steps
 		}
 		else
 		{
 			Node* Left = new Node;
-			Left->data = Data;
-			Root->left = Left;
+			Left->data = Data; // Set the data of the current node
+			Root->left = Left; // Set the data of the current node
+			Left->parent = Root; // Set the parent of current node as the previous node
 			std::cout << "\nNew Node " << Data << " Left of << " << Root->data << std::endl;
-			return;
+			return; // Exit the loop
 		}
 	}
 	else {
 		if (Root->right != nullptr)
 		{
-			Create(Data, Root->right);
-			std::cout << CurrentNode->data << " > ";
+			Create(Data, Root->right); // Continue
+			std::cout << CurrentNode->data << " > "; // Output steps
 		}
 		else
 		{
 			Node* Right = new Node;
-			Right->data = Data;
-			Root->right = Right;
+			Right->data = Data; // Set the data of the current node
+			Root->right = Right; // Set the previous node->right to the current node
+			Right->parent = Root; // Set the parent of current node as the previous node
 			std::cout << "\nNew Node " << Data << " Right of << " << Root->data << std::endl;
-			return;
+			return; // Exit the loop
 		}
 	}
 }
 
-void Search(int Data, Node* Root)
+Node* Search(int Data, Node* Root)
 {
 	Node* CurrentNode = new Node;
 	CurrentNode->data = Data;
@@ -59,7 +63,7 @@ void Search(int Data, Node* Root)
 		if (Root->left == nullptr)
 		{
 			std::cout << "\nFound: " << Root->data << std::endl;
-			return;
+			return Root;
 		}
 		else {
 			std::cout << Root->data << ">";
@@ -71,13 +75,42 @@ void Search(int Data, Node* Root)
 		if (Root->right == nullptr)
 		{
 			std::cout << "\nFound: " << Root->data << std::endl;
-			return;
+			return Root;
 		}
 		else {
 			std::cout << Root->data << ">";
 			Search(Data, Root->right);
 		}
 	}
+}
+
+void Sort(Node* Root)
+{
+
+}
+
+
+void Delete(int Data, Node* Root)
+{
+	Node* NodeToDelete = Search(Data, Root);
+	Node* PreviousNode = NodeToDelete->parent;
+	Node* NodeToDeleteLeft = NodeToDelete->left;
+	Node* NodeToDeleteRight = NodeToDelete->right;
+	if (NodeToDeleteLeft != nullptr)
+	{
+		if (PreviousNode->left == NodeToDelete)
+		{
+			PreviousNode->left = NodeToDeleteLeft;
+		}
+	}
+	if (NodeToDeleteRight != nullptr)
+	{
+		if (PreviousNode->right == NodeToDelete)
+		{
+			PreviousNode->right = NodeToDeleteLeft;
+		}
+	}
+	delete NodeToDelete;
 }
 
 
@@ -111,5 +144,11 @@ int main()
 		std::cin >> userInput;
 		Search(userInput, Head);
 	}
+	std::cout << "\nPlease type a node to delete" << std::endl;
+	std::cin >> userInput;
+	Delete(userInput, Head);
+	std::cout << "Enter the child of the number you deleted: ";
+	std::cin >> userInput;
+	Search(userInput, Head);
 	getchar();
 }
