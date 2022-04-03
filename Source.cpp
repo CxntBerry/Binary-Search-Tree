@@ -62,7 +62,7 @@ Node* Search(int Data, Node* Root)
 	{
 		if (Root->left == nullptr)
 		{
-			std::cout << "\nFound: " << Root->data << std::endl;
+			std::cout << "\nNot Found, nearest data: " << Root->data << std::endl;
 			return Root;
 		}
 		else {
@@ -74,7 +74,7 @@ Node* Search(int Data, Node* Root)
 	{
 		if (Root->right == nullptr)
 		{
-			std::cout << "\nFound: " << Root->data << std::endl;
+			std::cout << "\nNot Found, nearest data: " << Root->data << std::endl;
 			return Root;
 		}
 		else {
@@ -92,25 +92,54 @@ void Sort(Node* Root)
 
 void Delete(int Data, Node* Root)
 {
+	// If Leaf node: Delete
+	// If node has one child: Move child up to take its place
+	// If the node has two children: Replace the nodes value with the maximum value from its left subtree (and then delete that maximum value from that left subtree
 	Node* NodeToDelete = Search(Data, Root);
 	Node* PreviousNode = NodeToDelete->parent;
 	Node* NodeToDeleteLeft = NodeToDelete->left;
 	Node* NodeToDeleteRight = NodeToDelete->right;
-	if (NodeToDeleteLeft != nullptr)
+	if (NodeToDeleteLeft == nullptr || NodeToDeleteRight == nullptr) // Leaf node: Delete
 	{
+		delete NodeToDelete;
+	}
+	if (NodeToDeleteLeft != nullptr) // Check for one child, if only one child delete, otherwise call function again
+	{
+		if (NodeToDeleteRight != nullptr)
+		{
+			Delete(Data, Root);
+		}
 		if (PreviousNode->left == NodeToDelete)
 		{
-			PreviousNode->left = NodeToDeleteLeft;
+			PreviousNode->left == NodeToDeleteLeft;
 		}
-	}
-	if (NodeToDeleteRight != nullptr)
-	{
 		if (PreviousNode->right == NodeToDelete)
 		{
-			PreviousNode->right = NodeToDeleteLeft;
+			PreviousNode->right == NodeToDeleteLeft;
 		}
+		delete NodeToDelete;
 	}
-	delete NodeToDelete;
+	if (NodeToDeleteRight != nullptr) // Same as previous statement
+	{
+		if (NodeToDeleteLeft != nullptr)
+		{
+			Delete(Data, Root);
+		}
+		if (PreviousNode->left == NodeToDelete)
+		{
+			PreviousNode->left = NodeToDeleteRight;
+		}
+		if (PreviousNode->right = NodeToDelete)
+		{
+			PreviousNode->right = NodeToDeleteRight;
+		}
+		delete NodeToDelete;
+	}
+	if (NodeToDeleteRight != nullptr | NodeToDeleteLeft != nullptr)
+	{
+		PreviousNode->left = NodeToDeleteLeft;
+		delete NodeToDelete;
+	}
 }
 
 
